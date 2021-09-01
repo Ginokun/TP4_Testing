@@ -1,0 +1,9 @@
+Chequear que se lee bien el estado de la puerta
+Ver que el Password sea correcto
+Habilitar la apertura de la puerta
+
+La cerradura abre si se la debloquea. 
+La cerradura cierra si se la bloquea.
+Suena alarma si se abre la puerta estando Locked.
+No suena la alarma estando la puerta Unlocked. 
+Suena alarma si se quiere Lockear estando abierta la puerta.
