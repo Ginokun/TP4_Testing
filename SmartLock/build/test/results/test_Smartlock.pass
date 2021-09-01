@@ -3,32 +3,44 @@
   :path: test
   :file: test_Smartlock.c
 :successes:
-- :test: test_LockOpen
-  :line: 29
+- :test: test_Unlock
+  :line: 33
   :message: ''
   :unity_test_time: 0
 - :test: test_LockClose
-  :line: 40
+  :line: 44
   :message: ''
   :unity_test_time: 0
-- :test: test_OpenDoorWithClosedLock
-  :line: 51
+- :test: test_OpenDoorLocked
+  :line: 55
   :message: ''
   :unity_test_time: 0
 - :test: test_OpenDoorWithOpenedLock
-  :line: 64
+  :line: 68
   :message: ''
   :unity_test_time: 0
 - :test: test_CloseLockWithOpenDoor
-  :line: 75
+  :line: 79
+  :message: ''
+  :unity_test_time: 0
+- :test: test_TurnOffAlarm
+  :line: 92
+  :message: ''
+  :unity_test_time: 0
+- :test: test_TurnOnLockLed
+  :line: 102
+  :message: ''
+  :unity_test_time: 0
+- :test: test_TurnOffLockLed
+  :line: 113
   :message: ''
   :unity_test_time: 0
 :failures: []
 :ignores: []
 :counts:
-  :total: 5
-  :passed: 5
+  :total: 8
+  :passed: 8
   :failed: 0
   :ignored: 0
 :stdout: []
-:time: 0.0015097990108188242
+:time: 0.0013408899976639077

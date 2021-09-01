@@ -1,7 +1,9 @@
 #include "Smartlock.h"
 
-#define OPEN_DOOR_TIME 5 //Seconds that the lock remains Unlocked.
-#define OPEN_DOOR_TIME 0 //Miliseconds that the lock remains Unlocked.
+static void AlarmTurnOn(Door_t *Door);
+static void AlarmTurnOff(Door_t *Door);
+static void LedTurnOn(Door_t *Door);
+static void LedTurnOff(Door_t *Door);
 
 void Smartlock_FSM(Door_t *Door)
 {
@@ -10,60 +12,63 @@ void Smartlock_FSM(Door_t *Door)
     case Locked:
         if (Door->Door_State == Opened)
         {
+            LedTurnOn(Door);
             AlarmTurnOn(Door); //suena la alarma por un tiempo para indicar que se forzo la puerta o se cerro con la puerta abierta.
         }
         else if (Door->Door_State == Closed)
         {
             AlarmTurnOff(Door);
+            LedTurnOff(Door);
         }
         /* code */
         break;
 
     case Unlocked:
+        AlarmTurnOff(Door);
         if (Door->Door_State == Opened)
         {
-        }
-        else if (Door->Door_State == Closed)
+            LedTurnOn(Door);
+        }else if (Door->Door_State == Closed)
         {
+            LedTurnOff(Door);
         }
-        /* code */
+
         break;
 
     default:
-        while (1);
+        while (1)
+            ;
         break;
     }
 }
 
-void LockOpen(Door_t *Door)
+void Unlock(Door_t *Door)
 {
     Door->Lock_State = Unlocked; //Se abre la cerradura.
 }
 
-void LockClose(Door_t *Door)
+void Lock(Door_t *Door)
 {
     //Door->Open_Time = CLOSE_DOOR_TIME; //Arranca el timer de tiempo de apertura.
     Door->Lock_State = Locked; //Se cierra la cerradura.
 }
 
-void delay(int number_of_seconds)
+static void AlarmTurnOn(Door_t *Door)
 {
-    // Converting time into milli_seconds
-    int milli_seconds = 1000 * number_of_seconds;
-
-    // Storing start time
-    clock_t start_time = clock();
-
-    // looping till required time is not achieved
-    while (clock() < start_time + milli_seconds)
-        ;
+    Door->Alarm_State = Alarm_On;
 }
 
-void AlarmTurnOn(Door_t *Door)
+static void AlarmTurnOff(Door_t *Door)
 {
-    Door->Alarm_State = On;
+    Door->Alarm_State = Alarm_Off;
 }
-void AlarmTurnOff(Door_t *Door)
+
+static void LedTurnOn(Door_t *Door)
 {
-    Door->Alarm_State = Off;
+    Door->Led_State = Led_On;
+}
+
+static void LedTurnOff(Door_t *Door)
+{
+    Door->Led_State = Led_Off;
 }

@@ -12,9 +12,11 @@ void setUp(void)
 
     FrontDoor.Door_State = Closed;
 
-    FrontDoor.Lock_State = Opened;
+    FrontDoor.Lock_State = Unlocked;
 
-    FrontDoor.Alarm_State = Off;
+    FrontDoor.Alarm_State = Alarm_Off;
+
+    FrontDoor.Led_State = Led_Off;
 
 }
 
@@ -32,7 +34,7 @@ void tearDown(void)
 
 
 
-void test_LockOpen(void)
+void test_Unlock(void)
 
 {
 
@@ -40,7 +42,7 @@ void test_LockOpen(void)
 
 
 
-    LockOpen(&FrontDoor);
+    Unlock(&FrontDoor);
 
 
 
@@ -48,7 +50,7 @@ void test_LockOpen(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(35), UNITY_DISPLAY_STYLE_UINT);
+   ), (UNITY_UINT)(39), UNITY_DISPLAY_STYLE_UINT);
 
 }
 
@@ -62,11 +64,11 @@ void test_LockClose(void)
 
 {
 
-    LockOpen(&FrontDoor);
+    Unlock(&FrontDoor);
 
 
 
-    LockClose(&FrontDoor);
+    Lock(&FrontDoor);
 
 
 
@@ -74,7 +76,7 @@ void test_LockClose(void)
 
    ((void *)0)
 
-   ), (UNITY_UINT)(46), UNITY_DISPLAY_STYLE_UINT);
+   ), (UNITY_UINT)(50), UNITY_DISPLAY_STYLE_UINT);
 
 }
 
@@ -84,7 +86,7 @@ void test_LockClose(void)
 
 
 
-void test_OpenDoorWithClosedLock(void)
+void test_OpenDoorLocked(void)
 
 {
 
@@ -92,7 +94,7 @@ void test_OpenDoorWithClosedLock(void)
 
     FrontDoor.Door_State = Opened;
 
-    LockClose(&FrontDoor);
+    Lock(&FrontDoor);
 
 
 
@@ -100,11 +102,11 @@ void test_OpenDoorWithClosedLock(void)
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((On)), (UNITY_INT)((FrontDoor.Alarm_State)), (
+    UnityAssertEqualNumber((UNITY_INT)((Alarm_On)), (UNITY_INT)((FrontDoor.Alarm_State)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(59), UNITY_DISPLAY_STYLE_UINT);
+   ), (UNITY_UINT)(63), UNITY_DISPLAY_STYLE_UINT);
 
 }
 
@@ -120,17 +122,17 @@ void test_OpenDoorWithOpenedLock(void)
 
     FrontDoor.Door_State = Opened;
 
-    LockOpen(&FrontDoor);
+    Unlock(&FrontDoor);
 
     Smartlock_FSM(&FrontDoor);
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((Off)), (UNITY_INT)((FrontDoor.Alarm_State)), (
+    UnityAssertEqualNumber((UNITY_INT)((Alarm_Off)), (UNITY_INT)((FrontDoor.Alarm_State)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(70), UNITY_DISPLAY_STYLE_UINT);
+   ), (UNITY_UINT)(74), UNITY_DISPLAY_STYLE_UINT);
 
 }
 
@@ -150,16 +152,90 @@ void test_CloseLockWithOpenDoor(void)
 
 
 
-    LockClose(&FrontDoor);
+    Lock(&FrontDoor);
 
     Smartlock_FSM(&FrontDoor);
 
 
 
-    UnityAssertEqualNumber((UNITY_INT)((On)), (UNITY_INT)((FrontDoor.Alarm_State)), (
+    UnityAssertEqualNumber((UNITY_INT)((Alarm_On)), (UNITY_INT)((FrontDoor.Alarm_State)), (
 
    ((void *)0)
 
-   ), (UNITY_UINT)(83), UNITY_DISPLAY_STYLE_UINT);
+   ), (UNITY_UINT)(87), UNITY_DISPLAY_STYLE_UINT);
+
+}
+
+
+
+
+
+
+
+void test_TurnOffAlarm(void)
+
+{
+
+    FrontDoor.Alarm_State = Alarm_On;
+
+    Smartlock_FSM(&FrontDoor);
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)((Alarm_Off)), (UNITY_INT)((FrontDoor.Alarm_State)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(97), UNITY_DISPLAY_STYLE_UINT);
+
+}
+
+
+
+
+
+
+
+void test_TurnOnLockLed(void)
+
+{
+
+    FrontDoor.Door_State = Opened;
+
+    Smartlock_FSM(&FrontDoor);
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)((Led_On)), (UNITY_INT)((FrontDoor.Led_State)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(107), UNITY_DISPLAY_STYLE_UINT);
+
+}
+
+
+
+
+
+
+
+
+
+void test_TurnOffLockLed(void)
+
+{
+
+    FrontDoor.Led_State = Led_On;
+
+    Smartlock_FSM(&FrontDoor);
+
+
+
+    UnityAssertEqualNumber((UNITY_INT)((Led_Off)), (UNITY_INT)((FrontDoor.Led_State)), (
+
+   ((void *)0)
+
+   ), (UNITY_UINT)(118), UNITY_DISPLAY_STYLE_UINT);
 
 }

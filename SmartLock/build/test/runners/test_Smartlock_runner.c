@@ -10,11 +10,14 @@ char* GlobalOrderError;
 /*=======External Functions This Runner Calls=====*/
 extern void setUp(void);
 extern void tearDown(void);
-extern void test_LockOpen(void);
+extern void test_Unlock(void);
 extern void test_LockClose(void);
-extern void test_OpenDoorWithClosedLock(void);
+extern void test_OpenDoorLocked(void);
 extern void test_OpenDoorWithOpenedLock(void);
 extern void test_CloseLockWithOpenDoor(void);
+extern void test_TurnOffAlarm(void);
+extern void test_TurnOnLockLed(void);
+extern void test_TurnOffLockLed(void);
 
 
 /*=======Mock Management=====*/
@@ -79,11 +82,14 @@ static void run_test(UnityTestFunction func, const char* name, UNITY_LINE_TYPE l
 int main(void)
 {
   UnityBegin("test_Smartlock.c");
-  run_test(test_LockOpen, "test_LockOpen", 29);
-  run_test(test_LockClose, "test_LockClose", 40);
-  run_test(test_OpenDoorWithClosedLock, "test_OpenDoorWithClosedLock", 51);
-  run_test(test_OpenDoorWithOpenedLock, "test_OpenDoorWithOpenedLock", 64);
-  run_test(test_CloseLockWithOpenDoor, "test_CloseLockWithOpenDoor", 75);
+  run_test(test_Unlock, "test_Unlock", 33);
+  run_test(test_LockClose, "test_LockClose", 44);
+  run_test(test_OpenDoorLocked, "test_OpenDoorLocked", 55);
+  run_test(test_OpenDoorWithOpenedLock, "test_OpenDoorWithOpenedLock", 68);
+  run_test(test_CloseLockWithOpenDoor, "test_CloseLockWithOpenDoor", 79);
+  run_test(test_TurnOffAlarm, "test_TurnOffAlarm", 92);
+  run_test(test_TurnOnLockLed, "test_TurnOnLockLed", 102);
+  run_test(test_TurnOffLockLed, "test_TurnOffLockLed", 113);
 
   return UnityEnd();
 }
