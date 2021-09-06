@@ -9,13 +9,13 @@ void Smartlock_FSM(Door_t *Door)
 {
     switch (Door->Lock_State)
     {
-    case Locked:
-        if (Door->Door_State == Opened)
+    case LOCKED:
+        if (Door->Door_State == OPENED)
         {
             LedTurnOn(Door);
             AlarmTurnOn(Door); //suena la alarma por un tiempo para indicar que se forzo la puerta o se cerro con la puerta abierta.
         }
-        else if (Door->Door_State == Closed)
+        else if (Door->Door_State == CLOSED)
         {
             AlarmTurnOff(Door);
             LedTurnOff(Door);
@@ -23,12 +23,12 @@ void Smartlock_FSM(Door_t *Door)
         /* code */
         break;
 
-    case Unlocked:
+    case UNLOCKED:
         AlarmTurnOff(Door);
-        if (Door->Door_State == Opened)
+        if (Door->Door_State == OPENED)
         {
             LedTurnOn(Door);
-        }else if (Door->Door_State == Closed)
+        }else if (Door->Door_State == CLOSED)
         {
             LedTurnOff(Door);
         }
@@ -44,31 +44,31 @@ void Smartlock_FSM(Door_t *Door)
 
 void Unlock(Door_t *Door)
 {
-    Door->Lock_State = Unlocked; //Se abre la cerradura.
+    Door->Lock_State = UNLOCKED; //Se abre la cerradura.
 }
 
 void Lock(Door_t *Door)
 {
     //Door->Open_Time = CLOSE_DOOR_TIME; //Arranca el timer de tiempo de apertura.
-    Door->Lock_State = Locked; //Se cierra la cerradura.
+    Door->Lock_State = LOCKED; //Se cierra la cerradura.
 }
 
 static void AlarmTurnOn(Door_t *Door)
 {
-    Door->Alarm_State = Alarm_On;
+    Door->Alarm_State = ALARM_ON;
 }
 
 static void AlarmTurnOff(Door_t *Door)
 {
-    Door->Alarm_State = Alarm_Off;
+    Door->Alarm_State = ALARM_OFF;
 }
 
 static void LedTurnOn(Door_t *Door)
 {
-    Door->Led_State = Led_On;
+    Door->Led_State = LED_ON;
 }
 
 static void LedTurnOff(Door_t *Door)
 {
-    Door->Led_State = Led_Off;
+    Door->Led_State = LED_OFF;
 }

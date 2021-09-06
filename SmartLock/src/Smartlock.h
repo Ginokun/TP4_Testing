@@ -1,40 +1,39 @@
 #include <stdio.h>
-// To use time library of C
-#include <time.h>
 
 typedef enum
 {
-    Unlocked,
-    Locked,
-    ValidAccess,
-    InvalidAccess
-} LOCK_STATE_T;
+    UNLOCKED,
+    LOCKED,
+    VALID_ACCESS,
+    INVALID_ACCESS
+} lock_state_t;
+
 
 typedef enum
 {
-    Closed,
-    Opened
-} DOOR_STATE_T;
+    CLOSED,
+    OPENED
+} door_state_t;
 
 typedef enum
 {
-    Alarm_Off,
-    Alarm_On
-} ALARM_STATE_T;
+    ALARM_OFF,
+    ALARM_ON
+} alarm_state_t;
 
 typedef enum
 {
-    Led_Off,
-    Led_On
-} LED_STATE_T;
+    LED_OFF,
+    LED_ON
+} led_state_t;
 
 typedef struct
 {
-    DOOR_STATE_T Door_State;
-    LOCK_STATE_T Lock_State;
-    ALARM_STATE_T Alarm_State;
-    LED_STATE_T Led_State;
-} Door_t;
+    door_state_t Door_State;
+    lock_state_t Lock_State;
+    alarm_state_t Alarm_State;
+    led_state_t Led_State;
+} door_t;
 
 
 void Unlock(Door_t *Door);
