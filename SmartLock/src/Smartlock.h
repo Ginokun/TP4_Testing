@@ -36,6 +36,6 @@ typedef struct
 } door_t;
 
 
-void Unlock(Door_t *Door);
-void Lock(Door_t *Door);
-void Smartlock_FSM(Door_t *Door);
+void Unlock(door_t *Door);
+void Lock(door_t *Door);
+void Smartlock_FSM(door_t *Door);

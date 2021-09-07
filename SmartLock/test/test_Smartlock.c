@@ -14,7 +14,7 @@ Se apaga el led cuando la puerta se encuentra cerrada.      <---------------
 #include "unity.h"
 #include "Smartlock.h"
 
-Door_t FrontDoor;
+door_t FrontDoor;
 
 void setUp(void)
 {
