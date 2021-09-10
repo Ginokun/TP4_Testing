@@ -16,12 +16,14 @@ Se apaga el led cuando la puerta se encuentra cerrada.      <---------------
 
 door_t FrontDoor;
 
+door_state_t ReadDoorSensor();        //Función de mock que devuelve la lectura del sensor ed apertura de la puerta. 
+
 void setUp(void)
 {
-    FrontDoor.Door_State = CLOSED;   //Todos los test inician con la puerta cerrada. (esta variable va a depender de un sensor)
-    FrontDoor.Lock_State = UNLOCKED; //Todos los tests inician con la cerradura desbloqueada.
-    FrontDoor.Alarm_State = ALARM_OFF;     //Todos los tests inician con la alarma apagada.
-    FrontDoor.Led_State = LED_OFF;  //Todos los tests inician con el led apagado.
+    FrontDoor.Door_State = ReadDoorSensor();     //Todos los test inician con la puerta cerrada. (esta variable va a depender de un sensor)
+    FrontDoor.Lock_State = UNLOCKED;   //Todos los tests inician con la cerradura desbloqueada.
+    FrontDoor.Alarm_State = ALARM_OFF; //Todos los tests inician con la alarma apagada.
+    FrontDoor.Led_State = LED_OFF;     //Todos los tests inician con el led apagado.
 }
 
 void tearDown(void)
@@ -92,7 +94,7 @@ void test_CloseLockWithOpenDoor(void)
 void test_TurnOffAlarm(void)
 {
     FrontDoor.Alarm_State = ALARM_ON; //Se fija como encendida la alarma.
-    Smartlock_FSM(&FrontDoor);  //Se actualiza la maquina de estados.
+    Smartlock_FSM(&FrontDoor);        //Se actualiza la maquina de estados.
 
     TEST_ASSERT_EQUAL_UINT(ALARM_OFF, FrontDoor.Alarm_State);
 }
@@ -107,13 +109,18 @@ void test_TurnOnLockLed(void)
     TEST_ASSERT_EQUAL_UINT(LED_ON, FrontDoor.Led_State);
 }
 
-
 /*Se apaga el led cuando la puerta se encuentra cerrada.*/
 
 void test_TurnOffLockLed(void)
 {
     FrontDoor.Led_State = LED_ON; //Se abre la puerta
-    Smartlock_FSM(&FrontDoor);     //Se actualiza la maquina de estados.
+    Smartlock_FSM(&FrontDoor);    //Se actualiza la maquina de estados.
 
     TEST_ASSERT_EQUAL_UINT(LED_OFF, FrontDoor.Led_State);
+}
+
+door_state_t ReadDoorSensor()
+{
+
+    return CLOSED;
 }
